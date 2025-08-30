@@ -3,7 +3,7 @@ import { Contact } from '../domain/contact.model';
 import { EducationEntry } from '../domain/education.model';
 import { ProjectEntry } from '../domain/project.model';
 import { SkillEntry } from '../domain/skill.model';
-import { WorkEntry } from '../domain/work.model';
+import { ExperienceEntry } from '../domain/experience.model';
 import { LanguageEntry } from '../domain/languages.model';
 
 @Injectable({
@@ -11,26 +11,6 @@ import { LanguageEntry } from '../domain/languages.model';
 })
 export class State {
   // Signals for state management
-  private readonly _educationEntries = signal<EducationEntry[]>([
-    {
-      id: 1,
-      name: 'Bachelors Informatics: Games Engineering',
-      shortDescription: 'Technical University of Munich',
-      description: '',
-      tags: ['Computer Science', 'Game Development'],
-      startDate: new Date('2021-10-01'),
-      endDate: new Date('2024-11-30'),
-    },
-    {
-      id: 2,
-      name: 'Masters Informatics',
-      shortDescription: 'Technical University of Munich',
-      description: '',
-      tags: ['Software Engineering', 'Formal Methods'],
-      startDate: new Date('2024-12-01'),
-      endDate: null,
-    },
-  ]);
   private readonly _projectEntries = signal<ProjectEntry[]>([
     {
       id: 1,
@@ -76,7 +56,8 @@ export class State {
       id: 2,
       name: 'Software Planning and Engineering',
       shortDescription: 'Expert in software design and architecture',
-      description: 'Skilled in creating efficient and distributed software solutions and managing projects',
+      description:
+        'Skilled in creating efficient and distributed software solutions and managing projects',
     },
     {
       id: 3,
@@ -85,27 +66,43 @@ export class State {
       description: 'Docker, Traefik, and automated deployment pipelines',
     },
   ]);
-  private readonly _workEntries = signal<WorkEntry[]>([
+  private readonly _experienceEntries = signal<ExperienceEntry[]>([
     {
       id: 1,
-      company: 'Siticom GmbH',
-      position: 'Working student position',
-      shortDescription: 'Software Developer for optical fiber planning',
+      title: 'Bachelors Informatics: Games Engineering',
+      subtitle: 'Technical University of Munich',
       description: '',
+      tags: ['Computer Science', 'Game Development'],
+      startDate: new Date('2021-10-01'),
+      endDate: new Date('2024-11-30'),
+    },
+    {
+      id: 2,
+      title: 'Working student position',
+      subtitle: 'Siticom GmbH',
+      description: 'Software Developer for optical fiber planning',
       tags: ['Software Development', 'Problem Solving'],
       startDate: new Date('2022-12-01'),
       endDate: new Date('2025-06-30'),
     },
     {
-      id: 2,
-      company: 'Unity Production Foundation',
-      position: 'Freelancer',
-      shortDescription: 'Consultant for Game Development and Design',
-      description: '',
+      id: 3,
+      title: 'Freelancer',
+      subtitle: 'Unity Production Foundation',
+      description: 'Consultant for Game Development and Design',
       tags: ['Game Development', 'Consulting', 'Design'],
       startDate: new Date('2024-07-01'),
       endDate: new Date('2025-08-31'),
-    }
+    },
+    {
+      id: 4,
+      title: 'Masters Informatics',
+      subtitle: 'Technical University of Munich',
+      description: '',
+      tags: ['Software Engineering', 'Formal Methods'],
+      startDate: new Date('2024-12-01'),
+      endDate: null,
+    },
   ]);
   private readonly _languageEntries = signal<LanguageEntry[]>([
     {
@@ -135,17 +132,19 @@ export class State {
   });
 
   // Read-only computed signals
-  readonly educationEntries = this._educationEntries.asReadonly();
+  readonly experienceEntries = this._experienceEntries.asReadonly();
   readonly projectEntries = this._projectEntries.asReadonly();
   readonly skillEntries = this._skillEntries.asReadonly();
-  readonly workEntries = this._workEntries.asReadonly();
+  readonly workEntries = this._experienceEntries.asReadonly();
   readonly languageEntries = this._languageEntries.asReadonly();
 
   readonly contact = this._contact.asReadonly();
 
   public setProject(project: ProjectEntry) {
     const currentProjects = this._projectEntries();
-    const existingProjectIndex = currentProjects.findIndex((p) => p.id === project.id);
+    const existingProjectIndex = currentProjects.findIndex(
+      (p) => p.id === project.id
+    );
 
     if (existingProjectIndex !== -1) {
       // Overwrite existing project

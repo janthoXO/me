@@ -1,8 +1,7 @@
-export interface WorkEntry {
+export interface ExperienceEntry {
   id: number;
-  company: string;
-  position: string;
-  shortDescription: string;
+  title: string;
+  subtitle: string;
   description: string;
   tags: string[];
   startDate: Date;

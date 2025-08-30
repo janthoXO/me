@@ -1,0 +1,118 @@
+<section id="experience" class="py-20 bg-secondary/5">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        Experience
+      </h2>
+      <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+        My professional journey in software development
+      </p>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto">
+      <!-- Timeline line -->
+      <div
+        class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-border h-full"
+      ></div>
+
+      @for (entry of experienceEntries; track entry.id; let i = $index) {
+      <div
+        class="relative flex items-center mb-16 transition-all duration-700 ease-out"
+        [ngClass]="getEntryAnimationClass(i)"
+      >
+        <!-- Timeline dot -->
+        <div
+          class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-background z-10 shadow-lg"
+        >
+          <div
+            class="absolute inset-1 bg-primary-foreground rounded-full"
+          ></div>
+        </div>
+
+        <!-- Content -->
+        <div
+          class="w-9/20 transition-all duration-500 hover:scale-105"
+          [ngClass]="i % 2 === 0 ? 'text-right' : 'ml-auto text-left'"
+        >
+          <div
+            hlmCard
+            class="shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
+            <div hlmCardHeader>
+              <!-- Date badge -->
+              <div
+                class="flex {{ i % 2 === 0 ? 'justify-end' : 'justify-start' }}"
+              >
+                <span hlmBadge variant="default">
+                  {{ formatDate(entry.startDate) }} -
+                  {{ formatDate(entry.endDate) }}
+                </span>
+              </div>
+
+              <!-- Degree/Title -->
+              <h3 hlmCardTitle class="text-xl font-bold text-foreground">
+                {{ entry.title }}
+              </h3>
+
+              <!-- Institution -->
+              <p hlmCardDescription class="text-lg font-semibold">
+                {{ entry.subtitle }}
+              </p>
+            </div>
+
+            <div hlmCardContent>
+              <!-- Description -->
+              @if(entry.description && entry.description !== '') {
+              <div
+                class="text-muted-foreground"
+                [innerHTML]="entry.description"
+              ></div>
+              }
+            </div>
+
+            <div
+              hlmCardFooter
+              class="flex"
+              [ngClass]="i % 2 === 0 ? 'justify-end' : 'justify-start'"
+            >
+              <div>
+                <!-- Highlight involved skills -->
+                <div
+                  class="flex flex-wrap gap-1 mb-2"
+                  [ngClass]="i % 2 === 0 ? 'justify-end' : 'justify-start'"
+                >
+                  @for (tag of entry.tags; track tag) {
+                  <span hlmBadge variant="secondary" class="text-xs">
+                    {{ tag }}
+                  </span>
+                  }
+                </div>
+
+                <!-- Duration indicator -->
+                <div
+                  class="text-xs text-muted-foreground"
+                  [ngClass]="i % 2 === 0 ? 'text-right' : 'text-left'"
+                >
+                  @if (isCurrentPosition(entry.endDate)) {
+                  <span class="inline-flex items-center gap-1">
+                    <div
+                      class="w-2 h-2 bg-green-500 rounded-full animate-pulse"
+                    ></div>
+                    Currently Active
+                  </span>
+                  } @else {
+                  <span>
+                    Duration:
+                    {{ calculateDuration(entry.startDate, entry.endDate) }}
+                  </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

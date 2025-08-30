@@ -12,12 +12,12 @@
       <h1 class="text-xl font-bold text-foreground">{{ contact.name }}</h1>
       <div class="flex gap-6">
         <a
-          href="#education"
+          href="#skills"
           class="text-muted-foreground hover:text-foreground transition-colors"
-          >Education</a
+          >Skills</a
         >
         <a
-          href="#work"
+          href="#experience"
           class="text-muted-foreground hover:text-foreground transition-colors"
           >Experience</a
         >
@@ -51,17 +51,20 @@
     <!-- Contact links -->
     <div class="flex gap-6 justify-center animate-fade-in-delay-2">
       <a
+        hlmBtn
         [href]="contact.githubUrl"
         target="_blank"
-        class="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all hover:scale-105"
+        class="flex items-center gap-2 rounded-full transition-all hover:scale-105"
       >
         <lucide-icon [img]="githubIcon" class="w-5 h-5"></lucide-icon>
         GitHub
       </a>
       <a
+        hlmBtn
+        variant="secondary"
         [href]="contact.linkedinUrl"
         target="_blank"
-        class="flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/90 transition-all hover:scale-105"
+        class="flex items-center gap-2 rounded-full transition-all hover:scale-105"
       >
         <lucide-icon [img]="linkedinIcon" class="w-5 h-5"></lucide-icon>
         LinkedIn
@@ -73,18 +76,27 @@
   <div class="relative">
     <!-- Profile Picture -->
     <div
+      id="skills"
       #profilePicture
-      class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-primary shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110"
+      hlmAvatar
+      class="relative w-32 h-32 border-4 border-primary shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110"
       (mouseenter)="onProfileHover(true)"
       (mouseleave)="onProfileHover(false)"
     >
       <img
+        hlmAvatarImage
         src="/20240207-profile-pic.jpg"
         alt="Profile Picture"
         class="w-full h-full object-cover"
       />
       <div
-        class="absolute inset-0 bg-primary/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+        hlmAvatarFallback
+        class="bg-primary/20 flex items-center justify-center"
+      >
+        DJ
+      </div>
+      <div
+        class="absolute inset-0 bg-primary/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-full"
       >
         <span class="text-white text-sm font-medium">Hover for skills</span>
       </div>
@@ -105,9 +117,9 @@
         [ngStyle]="getSkillBubbleStyle(skill)"
         [title]="skill.description"
       >
-          <span class="text-xs font-medium text-center leading-tight">{{
-            skill.name
-          }}</span>
+        <span class="text-xs font-medium text-center leading-tight">{{
+          skill.name
+        }}</span>
 
         <!-- Skill tooltip -->
         <div

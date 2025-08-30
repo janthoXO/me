@@ -16,6 +16,8 @@ import {
   Linkedin,
   ChevronDown,
 } from 'lucide-angular';
+import { HlmButton } from '../../../../libs/ui/ui-button-helm/src';
+import { HlmAvatarImports } from '../../../../libs/ui/ui-avatar-helm/src';
 
 interface SkillPosition {
   x: number;
@@ -26,7 +28,7 @@ interface SkillPosition {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule, HlmButton, ...HlmAvatarImports],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
