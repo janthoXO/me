@@ -4,6 +4,6 @@ export interface ProjectEntry {
   shortDescription: string;
   description: string;
   link: URL;
-  startDate: Date | null | "PRESENT";
-  endDate: Date | null | "PRESENT";
+  startDate: Date;
+  endDate: Date | null;
 }

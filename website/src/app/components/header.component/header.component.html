@@ -1,1 +1,136 @@
-<p>header.component works!</p>
+<header
+  class="relative min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/10 flex flex-col justify-center items-center overflow-hidden"
+>
+  <!-- Background pattern -->
+  <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+
+  <!-- Navigation -->
+  <nav
+    class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+  >
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-foreground">{{ contact.name }}</h1>
+      <div class="flex gap-6">
+        <a
+          href="#education"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          >Education</a
+        >
+        <a
+          href="#work"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          >Experience</a
+        >
+        <a
+          href="#projects"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          >Projects</a
+        >
+        <a
+          href="#contact"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          >Contact</a
+        >
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main banner content -->
+  <div class="text-center z-10 mb-32">
+    <h1
+      class="text-6xl md:text-8xl font-bold text-foreground mb-6 animate-fade-in"
+    >
+      {{ contact.name }}
+    </h1>
+    <p
+      class="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in-delay"
+    >
+      Full-Stack Developer & Game Engineer
+    </p>
+
+    <!-- Contact links -->
+    <div class="flex gap-6 justify-center animate-fade-in-delay-2">
+      <a
+        [href]="contact.githubUrl"
+        target="_blank"
+        class="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all hover:scale-105"
+      >
+        <lucide-icon [img]="githubIcon" class="w-5 h-5"></lucide-icon>
+        GitHub
+      </a>
+      <a
+        [href]="contact.linkedinUrl"
+        target="_blank"
+        class="flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/90 transition-all hover:scale-105"
+      >
+        <lucide-icon [img]="linkedinIcon" class="w-5 h-5"></lucide-icon>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <!-- Interactive Profile Picture with Skills -->
+  <div class="relative">
+    <!-- Profile Picture -->
+    <div
+      #profilePicture
+      class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-primary shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110"
+      (mouseenter)="onProfileHover(true)"
+      (mouseleave)="onProfileHover(false)"
+    >
+      <img
+        src="/20240207-profile-pic.jpg"
+        alt="Profile Picture"
+        class="w-full h-full object-cover"
+      />
+      <div
+        class="absolute inset-0 bg-primary/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+      >
+        <span class="text-white text-sm font-medium">Hover for skills</span>
+      </div>
+    </div>
+
+    <!-- Skill Bubbles -->
+    <div class="absolute inset-0 pointer-events-none">
+      @for (skill of skills; track skill.id) {
+      <!-- Connection Line -->
+      <div
+        class="absolute top-1/2 left-1/2 h-px bg-muted-foreground origin-left"
+        [ngStyle]="getConnectionLineStyle(skill)"
+      ></div>
+
+      <!-- Skill Bubble -->
+      <div
+        class="absolute top-1/2 left-1/2 w-16 h-16 rounded-full flex items-center justify-center text-white font-medium text-sm cursor-pointer group pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-all duration-300"
+        [ngStyle]="getSkillBubbleStyle(skill)"
+        [title]="skill.description"
+      >
+          <span class="text-xs font-medium text-center leading-tight">{{
+            skill.name
+          }}</span>
+
+        <!-- Skill tooltip -->
+        <div
+          class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-popover text-popover-foreground px-3 py-2 rounded-lg shadow-lg text-xs whitespace-nowrap border border-border"
+        >
+          <div class="font-semibold">{{ skill.name }}</div>
+          <div class="text-muted-foreground">{{ skill.shortDescription }}</div>
+          <div
+            class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-popover"
+          ></div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+  >
+    <lucide-icon
+      [img]="chevronDownIcon"
+      class="w-6 h-6 text-muted-foreground"
+    ></lucide-icon>
+  </div>
+</header>

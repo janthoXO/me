@@ -3,6 +3,7 @@ export interface EducationEntry {
   name: string;
   shortDescription: string;
   description: string;
-  startDate: Date | null | "PRESENT";
-  endDate: Date | null | "PRESENT";
+  tags: string[];
+  startDate: Date;
+  endDate: Date | null; // null represents ongoing education
 }

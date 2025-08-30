@@ -1,0 +1,122 @@
+/* Work timeline animations */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.8s ease-out forwards;
+}
+
+/* Company icon animations */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(0deg);
+  }
+  70% {
+    transform: scale(0.9) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.company-icon {
+  animation: bounce-in 0.6s ease-out forwards;
+}
+
+/* Card hover effects */
+.work-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.work-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease-in-out;
+}
+
+.work-card:hover::after {
+  left: 100%;
+}
+
+/* Status indicator animation */
+@keyframes pulse-green {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-active {
+  animation: pulse-green 2s infinite;
+}
+
+/* Skill tags hover effect */
+.skill-tag {
+  transition: all 0.2s ease-in-out;
+}
+
+.skill-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA section */
+.cta-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .work-timeline-mobile {
+    flex-direction: column;
+  }
+  
+  .work-timeline-mobile .work-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 2rem !important;
+    text-align: left !important;
+  }
+}

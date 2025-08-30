@@ -1,4 +1,4 @@
-export type LanguageEntry = {
+export interface LanguageEntry {
   id: number;
   name: string;
   level: string;

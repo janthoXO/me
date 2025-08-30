@@ -17,6 +17,7 @@ export class State {
       name: 'Bachelors Informatics: Games Engineering',
       shortDescription: 'Technical University of Munich',
       description: '',
+      tags: ['Computer Science', 'Game Development'],
       startDate: new Date('2021-10-01'),
       endDate: new Date('2024-11-30'),
     },
@@ -25,18 +26,42 @@ export class State {
       name: 'Masters Informatics',
       shortDescription: 'Technical University of Munich',
       description: '',
+      tags: ['Software Engineering', 'Formal Methods'],
       startDate: new Date('2024-12-01'),
-      endDate: 'PRESENT',
+      endDate: null,
     },
   ]);
   private readonly _projectEntries = signal<ProjectEntry[]>([
     {
       id: 1,
       name: 'HackaTUM 24: CHECK24 Challenge',
-      shortDescription: '',
-      description: '',
-      startDate: new Date('2024-11-21'),
-      endDate: new Date('2024-11-23'),
+      shortDescription: 'Hackathon project for CHECK24 challenge',
+      description: `
+        <div class="project-description">
+          <p class="text-sm text-muted-foreground mb-3">
+            A collaborative hackathon project developed during HackaTUM 2024 for the CHECK24 challenge.
+          </p>
+          <h4 class="font-semibold text-foreground mb-2">Technologies Used</h4>
+          <div class="flex flex-wrap gap-1 mb-3">
+            <span class="px-2 py-1 bg-primary/10 text-primary rounded text-xs">Vue.js</span>
+            <span class="px-2 py-1 bg-primary/10 text-primary rounded text-xs">TypeScript</span>
+            <span class="px-2 py-1 bg-primary/10 text-primary rounded text-xs">Node.js</span>
+            <span class="px-2 py-1 bg-primary/10 text-primary rounded text-xs">Express</span>
+          </div>
+          <h4 class="font-semibold text-foreground mb-2">Key Features</h4>
+          <ul class="list-disc pl-5 text-sm text-muted-foreground mb-3">
+            <li>Innovative solution for price comparison</li>
+            <li>Real-time data processing</li>
+            <li>Responsive user interface</li>
+            <li>RESTful API integration</li>
+          </ul>
+          <p class="text-xs text-muted-foreground">
+            This project was developed in 48 hours with a team of 4 developers.
+          </p>
+        </div>
+      `,
+      startDate: new Date('2024-11-22'),
+      endDate: new Date('2024-11-24'),
       link: new URL('https://github.com/CheckRepublic/checkrepublic'),
     },
   ]);
@@ -44,20 +69,20 @@ export class State {
     {
       id: 1,
       name: 'Full-Stack Development',
-      shortDescription: '',
-      description: '',
+      shortDescription: 'Building complete web and mobile applications',
+      description: 'Proficient in both frontend and backend technologies',
     },
     {
       id: 2,
       name: 'Software Planning and Engineering',
-      shortDescription: '',
-      description: '',
+      shortDescription: 'Expert in software design and architecture',
+      description: 'Skilled in creating efficient and distributed software solutions and managing projects',
     },
     {
       id: 3,
       name: 'DevOps',
-      shortDescription: '',
-      description: '',
+      shortDescription: 'Deployment & CI/CD',
+      description: 'Docker, Traefik, and automated deployment pipelines',
     },
   ]);
   private readonly _workEntries = signal<WorkEntry[]>([
@@ -67,6 +92,7 @@ export class State {
       position: 'Working student position',
       shortDescription: 'Software Developer for optical fiber planning',
       description: '',
+      tags: ['Software Development', 'Problem Solving'],
       startDate: new Date('2022-12-01'),
       endDate: new Date('2025-06-30'),
     },
@@ -76,6 +102,7 @@ export class State {
       position: 'Freelancer',
       shortDescription: 'Consultant for Game Development and Design',
       description: '',
+      tags: ['Game Development', 'Consulting', 'Design'],
       startDate: new Date('2024-07-01'),
       endDate: new Date('2025-08-31'),
     }
@@ -115,4 +142,19 @@ export class State {
   readonly languageEntries = this._languageEntries.asReadonly();
 
   readonly contact = this._contact.asReadonly();
+
+  public setProject(project: ProjectEntry) {
+    const currentProjects = this._projectEntries();
+    const existingProjectIndex = currentProjects.findIndex((p) => p.id === project.id);
+
+    if (existingProjectIndex !== -1) {
+      // Overwrite existing project
+      const updatedProjects = [...currentProjects];
+      updatedProjects[existingProjectIndex] = project;
+      this._projectEntries.set(updatedProjects);
+    } else {
+      // Add new project
+      this._projectEntries.set([...currentProjects, project]);
+    }
+  }
 }

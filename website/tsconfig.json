@@ -18,6 +18,27 @@
       ],
       "@spartan-ng/helm/icon": [
         "./libs/ui/ui-icon-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/card": [
+        "./libs/ui/ui-card-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/avatar": [
+        "./libs/ui/ui-avatar-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/badge": [
+        "./libs/ui/ui-badge-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/hover-card": [
+        "./libs/ui/ui-hover-card-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/label": [
+        "./libs/ui/ui-label-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/separator": [
+        "./libs/ui/ui-separator-helm/src/index.ts"
+      ],
+      "@spartan-ng/helm/tooltip": [
+        "./libs/ui/ui-tooltip-helm/src/index.ts"
       ]
     }
   },

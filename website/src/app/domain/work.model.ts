@@ -4,6 +4,7 @@ export interface WorkEntry {
   position: string;
   shortDescription: string;
   description: string;
-  startDate: Date | null | "PRESENT";
-  endDate: Date | null | "PRESENT";
+  tags: string[];
+  startDate: Date;
+  endDate: Date | null;
 }
