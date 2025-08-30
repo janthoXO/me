@@ -18,7 +18,7 @@ export class GithubService {
       }
 
           // Extract owner and repo from GitHub URL
-    const match = project.link.href.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+    const match = project.link.href.match(/github\.com\/([^/]+)\/([^/]+)/);
     if (!match) {
       return;
     }
@@ -104,7 +104,7 @@ export class GithubService {
   }
 
   private getLanguageColorClass(language: string): string {
-    const colorClasses: { [key: string]: string } = {
+    const colorClasses: Record<string, string> = {
       'TypeScript': 'bg-blue-600',
       'JavaScript': 'bg-yellow-400',
       'Python': 'bg-blue-500',

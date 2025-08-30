@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 import { Contact } from '../domain/contact.model';
-import { EducationEntry } from '../domain/education.model';
 import { ProjectEntry } from '../domain/project.model';
 import { SkillEntry } from '../domain/skill.model';
 import { ExperienceEntry } from '../domain/experience.model';

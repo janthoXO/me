@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { State } from '../../data/state';
 import { HlmCardImports } from '../../../../libs/ui/ui-card-helm/src';
@@ -14,9 +14,10 @@ import { Mail } from 'lucide-angular';
 export class ExperienceComponent {
   readonly mailIcon = Mail;
 
-  private scrollY = signal(0);
+  private state = inject(State);
+  private elementRef = inject(ElementRef);
 
-  constructor(private state: State, private elementRef: ElementRef) {}
+  private scrollY = signal(0);
 
   get experienceEntries() {
     return this.state.experienceEntries();

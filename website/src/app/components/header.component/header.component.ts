@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { State } from '../../data/state';
@@ -47,7 +48,7 @@ export class HeaderComponent implements OnInit{
 
   private skillPositions = signal<Map<number, SkillPosition>>(new Map());
 
-  constructor(private state: State) {}
+  private state = inject(State);
 
   ngOnInit(): void {
     this.calculateSkillPositions();
