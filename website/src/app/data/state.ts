@@ -48,21 +48,18 @@ export class State {
     {
       id: 1,
       name: 'Full-Stack Development',
-      shortDescription: 'Building complete web and mobile applications',
-      description: 'Proficient in both frontend and backend technologies',
+      description: 'Building complete web and mobile applications',
     },
     {
       id: 2,
       name: 'Software Planning and Engineering',
-      shortDescription: 'Expert in software design and architecture',
       description:
-        'Skilled in creating efficient and distributed software solutions and managing projects',
+        'Expert in software design and architecture',
     },
     {
       id: 3,
       name: 'DevOps',
-      shortDescription: 'Deployment & CI/CD',
-      description: 'Docker, Traefik, and automated deployment pipelines',
+      description: 'Deployment & CI/CD with Docker, Traefik, and automated deployment pipelines',
     },
   ]);
   private readonly _experienceEntries = signal<ExperienceEntry[]>([

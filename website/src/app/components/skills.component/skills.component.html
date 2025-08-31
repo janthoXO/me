@@ -40,9 +40,8 @@
 
         <!-- Skill Bubble -->
         <div
-          class="absolute top-1/2 left-1/2 w-16 h-16 rounded-full flex items-center justify-center text-white font-medium text-sm cursor-pointer group pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-all duration-300"
+          class="absolute top-1/2 left-1/2 w-16 h-16 rounded-full flex items-center justify-center font-medium text-sm cursor-pointer group pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-all duration-300"
           [ngStyle]="getSkillBubbleStyle(skill)"
-          [title]="skill.description"
         >
           <span class="text-xs font-medium text-center leading-tight">{{
             skill.name
@@ -54,7 +53,7 @@
           >
             <div class="font-semibold">{{ skill.name }}</div>
             <div class="text-muted-foreground">
-              {{ skill.shortDescription }}
+              {{ skill.description }}
             </div>
             <div
               class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-popover"

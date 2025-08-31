@@ -16,7 +16,7 @@
 
     @for (entry of experienceEntries; track entry.id; let i = $index) {
     <div
-      class="relative flex items-center mb-16 transition-all duration-700 ease-out"
+      class="relative flex items-center mb-16 transition-opacity duration-700 ease-out"
       [ngClass]="getEntryAnimationClass(i)"
     >
       <!-- Timeline dot -->
@@ -28,12 +28,12 @@
 
       <!-- Content -->
       <div
-        class="w-9/20 transition-all duration-500 hover:scale-105"
+        class="w-9/20 transition-transform duration-500 hover:scale-105"
         [ngClass]="i % 2 === 0 ? 'text-right' : 'ml-auto text-left'"
       >
         <div
           hlmCard
-          class="shadow-lg hover:shadow-xl transition-shadow duration-300"
+          class="shadow-lg hover:shadow-xl"
         >
           <div hlmCardHeader>
             <!-- Date badge -->

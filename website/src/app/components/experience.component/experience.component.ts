@@ -52,9 +52,10 @@ export class ExperienceComponent {
   }
 
   getEntryAnimationClass(index: number): string {
-    return this.isEntryVisible(index)
-      ? 'animate-slide-in-left'
-      : 'opacity-0 translate-x-8';
+    if (this.isEntryVisible(index)) {
+      return index % 2 === 0 ? 'animate-slide-in-left' : 'animate-slide-in-right';
+    }
+    return 'opacity-0';
   }
 
   isCurrentPosition(endDate: Date | null): boolean {

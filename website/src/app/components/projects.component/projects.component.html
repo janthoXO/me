@@ -14,14 +14,14 @@
     @for (project of projects; track project.id) {
     <div
       hlmCard
-      class="group shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+      class="hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
     >
       <!-- Project Header -->
       <div hlmCardHeader>
         <div class="flex items-start justify-between mb-4">
           <h3
             hlmCardTitle
-            class="text-xl font-bold text-foreground group-hover:text-primary transition-colors"
+            class="text-xl font-bold text-foreground"
           >
             {{ project.name }}
           </h3>
@@ -73,11 +73,6 @@
           }
         </div>
       </div>
-
-      <!-- Hover Effect Overlay -->
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-      ></div>
     </div>
     }
   </div>

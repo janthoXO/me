@@ -91,7 +91,6 @@ export class SkillsComponent implements OnInit {
       transform: `translate(${this.getSkillPosition(skill.id).x || 0}px, ${
         this.getSkillPosition(skill.id).y || 0
       }px)`,
-      backgroundColor: '#6366f1',
       opacity: this.showSkills() ? 1 : 0,
       transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
     };
