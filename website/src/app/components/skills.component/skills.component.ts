@@ -11,14 +11,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { State } from '../../data/state';
 import { SkillEntry } from '../../domain/skill.model';
-import {
-  LucideAngularModule,
-  Github,
-  Linkedin,
-  ChevronDown,
-} from 'lucide-angular';
-import { HlmButton } from '../../../../libs/ui/ui-button-helm/src';
 import { HlmAvatarImports } from '../../../../libs/ui/ui-avatar-helm/src';
+import { ChevronDown, LucideAngularModule } from 'lucide-angular';
 
 interface SkillPosition {
   x: number;
@@ -27,16 +21,12 @@ interface SkillPosition {
 }
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [CommonModule, LucideAngularModule, HlmButton, ...HlmAvatarImports],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  selector: 'app-skills',
+  imports: [CommonModule, LucideAngularModule, ...HlmAvatarImports],
+  templateUrl: './skills.component.html',
+  styleUrl: './skills.component.css',
 })
-export class HeaderComponent implements OnInit{
-  // Icons
-  readonly githubIcon = Github;
-  readonly linkedinIcon = Linkedin;
+export class SkillsComponent implements OnInit {
   readonly chevronDownIcon = ChevronDown;
 
   @ViewChild('profilePicture', { static: false })
@@ -48,14 +38,11 @@ export class HeaderComponent implements OnInit{
 
   private skillPositions = signal<Map<number, SkillPosition>>(new Map());
 
+  // State injection
   private state = inject(State);
 
   ngOnInit(): void {
     this.calculateSkillPositions();
-  }
-
-  get contact() {
-    return this.state.contact();
   }
 
   get skills() {

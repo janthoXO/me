@@ -1,122 +1,116 @@
-<section id="projects" class="py-20 bg-secondary/5">
-  <div class="container mx-auto px-6">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
-        Featured Projects
-      </h2>
-      <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
-        A showcase of my recent work and contributions to the developer
-        community
-      </p>
-    </div>
+<div id="projects" class="container mx-auto py-20">
+  <div class="text-center mb-16">
+    <h2 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
+      Featured Projects
+    </h2>
+    <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+      A showcase of my recent work and contributions to the developer community
+    </p>
+  </div>
 
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+  >
+    @for (project of projects; track project.id) {
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+      hlmCard
+      class="group shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
     >
-      @for (project of projects; track project.id) {
-      <div
-        hlmCard
-        class="group shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-      >
-        <!-- Project Header -->
-        <div hlmCardHeader>
-          <div class="flex items-start justify-between mb-4">
-            <h3
-              hlmCardTitle
-              class="text-xl font-bold text-foreground group-hover:text-primary transition-colors"
-            >
-              {{ project.name }}
-            </h3>
-            @if (project.link) {
-            <a
-              [href]="project.link.href"
-              target="_blank"
-              class="text-muted-foreground hover:text-primary transition-colors"
-            >
-              <lucide-icon
-                [img]="externalLinkIcon"
-                class="w-5 h-5"
-              ></lucide-icon>
-            </a>
-            }
-          </div>
-
-          <!-- Project Short Description -->
-          <p
-            hlmCardDescription
-            class="text-muted-foreground text-sm mb-4 line-clamp-3"
+      <!-- Project Header -->
+      <div hlmCardHeader>
+        <div class="flex items-start justify-between mb-4">
+          <h3
+            hlmCardTitle
+            class="text-xl font-bold text-foreground group-hover:text-primary transition-colors"
           >
-            {{ project.shortDescription }}
-          </p>
-
-          <!-- Date Range -->
-          <div class="text-xs text-muted-foreground mb-4">
-            {{ formatDate(project.startDate) }} -
-            {{ formatDate(project.endDate) }}
-          </div>
+            {{ project.name }}
+          </h3>
+          @if (project.link) {
+          <a
+            [href]="project.link.href"
+            target="_blank"
+            class="text-muted-foreground hover:text-primary transition-colors"
+          >
+            <lucide-icon [img]="externalLinkIcon" class="w-5 h-5"></lucide-icon>
+          </a>
+          }
         </div>
 
-        <!-- Project Description (HTML Content) -->
-        @if (project.description) {
-        <div hlmCardContent class="border-t border-border pt-4">
-          <div
-            class="project-description-content"
-            [innerHTML]="project.description"
-          ></div>
-        </div>
-        }
+        <!-- Project Short Description -->
+        <p
+          hlmCardDescription
+          class="text-muted-foreground text-sm mb-4 line-clamp-3"
+        >
+          {{ project.shortDescription }}
+        </p>
 
-        <!-- Project Actions -->
-        <div hlmCardFooter>
-          <div class="w-full">
-            @if (project.link) {
-            <button hlmBtn class="w-full text-center text-sm font-medium p-0">
-              <a class="w-full" href="{{ project.link.href }}" target="_blank">
-                View Project
-              </a>
-            </button>
-            }
-          </div>
+        <!-- Date Range -->
+        <div class="text-xs text-muted-foreground mb-4">
+          {{ formatDate(project.startDate) }} -
+          {{ formatDate(project.endDate) }}
         </div>
+      </div>
 
-        <!-- Hover Effect Overlay -->
+      <!-- Project Description (HTML Content) -->
+      @if (project.description) {
+      <div hlmCardContent class="border-t border-border pt-4">
         <div
-          class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          class="project-description-content"
+          [innerHTML]="project.description"
         ></div>
       </div>
       }
-    </div>
 
-    <!-- Add Project CTA -->
-    <div class="text-center mt-16">
-      <div hlmCard class="mx-auto max-w-2xl">
-        <div hlmCardHeader>
-          <h3 hlmCardTitle class="flex items-center justify-center gap-4">
-            <span class="text-4xl">🚀</span>
-            <span class="text-2xl font-bold text-foreground"
-              >Want to see more?</span
-            >
-            <span class="text-4xl">🚀</span>
-          </h3>
-        </div>
-        <div hlmCardContent>
-          <p class="text-muted-foreground">
-            Check out all my projects and contributions on GitHub
-          </p>
-        </div>
-        <div hlmCardFooter>
-          <button hlmBtn class="w-full p-0">
-            <a
-              href="https://github.com/janthoXO"
-              target="_blank"
-              class="w-full inline-flex justify-center gap-2 text-sm font-medium"
-            >
-              <lucide-icon [img]="githubIcon" class="w-4 h-4"></lucide-icon>
-              Visit GitHub Profile
+      <!-- Project Actions -->
+      <div hlmCardFooter>
+        <div class="w-full">
+          @if (project.link) {
+          <button hlmBtn class="w-full text-center text-sm font-medium p-0">
+            <a class="w-full" href="{{ project.link.href }}" target="_blank">
+              View Project
             </a>
           </button>
+          }
         </div>
+      </div>
+
+      <!-- Hover Effect Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+      ></div>
+    </div>
+    }
+  </div>
+
+  <!-- Add Project CTA -->
+  <div class="text-center mt-16">
+    <div hlmCard class="mx-auto max-w-2xl">
+      <div hlmCardHeader>
+        <h3 hlmCardTitle class="flex items-center justify-center gap-4">
+          <span class="text-4xl">🚀</span>
+          <span class="text-2xl font-bold text-foreground"
+            >Want to see more?</span
+          >
+          <span class="text-4xl">🚀</span>
+        </h3>
+      </div>
+      <div hlmCardContent>
+        <p class="text-muted-foreground">
+          Check out all my projects and contributions on GitHub
+        </p>
+      </div>
+      <div hlmCardFooter>
+        <button hlmBtn class="w-full p-0">
+          <a
+            href="https://github.com/janthoXO"
+            target="_blank"
+            class="w-full inline-flex justify-center gap-2 text-sm font-medium"
+          >
+            <lucide-icon [img]="githubIcon" class="w-4 h-4"></lucide-icon>
+            Visit GitHub Profile
+          </a>
+        </button>
       </div>
     </div>
   </div>
-</section>
+</div>
