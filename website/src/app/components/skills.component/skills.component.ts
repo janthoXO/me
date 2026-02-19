@@ -33,8 +33,8 @@ export class SkillsComponent implements OnInit {
   profilePicture?: ElementRef<HTMLElement>;
 
   private scrollY = signal(0);
-  private isProfileHovered = signal(false);
-  showSkills = computed(() => this.scrollY() > 100 || this.isProfileHovered());
+  private isSectionHovered = signal(false);
+  showSkills = computed(() => this.scrollY() > 100 || this.isSectionHovered());
 
   private skillPositions = signal<Map<number, SkillPosition>>(new Map());
 
@@ -54,8 +54,12 @@ export class SkillsComponent implements OnInit {
     this.scrollY.set(window.scrollY);
   }
 
+  onSectionHover(hovered: boolean) {
+    this.isSectionHovered.set(hovered);
+  }
+
   onProfileHover(hovered: boolean) {
-    this.isProfileHovered.set(hovered);
+    this.isSectionHovered.set(hovered);
   }
 
   private calculateSkillPositions() {
@@ -67,9 +71,9 @@ export class SkillsComponent implements OnInit {
       const angleStep = (2 * Math.PI) / skills.length;
       const angle = index * angleStep;
 
-      // Add some randomness to the distance (between 100px and 160px)
-      const baseDistance = 130;
-      const randomOffset = (Math.random() - 0.5) * 60; // ±30px variation
+      // Use a consistent distance for better layout (120px from center)
+      const baseDistance = 120;
+      const randomOffset = (Math.random() - 0.5) * 40; // ±20px variation for organic feel
       const distance = baseDistance + randomOffset;
 
       // Calculate x, y coordinates

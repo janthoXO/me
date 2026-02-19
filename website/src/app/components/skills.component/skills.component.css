@@ -1,0 +1,76 @@
+/* Ensure skills section doesn't overlap with other sections */
+#skills {
+  position: relative;
+  z-index: 10;
+  /* Ensure sufficient height for skill bubbles to display */
+  min-height: 100vh;
+  /* Add padding to prevent overlap */
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Ensure skill bubbles stay within bounds and don't overflow */
+.skill-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  overflow: visible;
+  /* Center the container */
+  margin: 0 auto;
+}
+
+/* Override avatar default styles to ensure proper roundness */
+[hlmAvatar] {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+[hlmAvatar] img {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+}
+
+[hlmAvatarFallback] {
+  border-radius: 50% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure skill bubbles have proper z-index */
+.skill-bubble {
+  z-index: 20;
+  /* Ensure minimum size for readability */
+  min-width: 4rem;
+  min-height: 4rem;
+}
+
+/* Smooth transitions for all interactive elements */
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure tooltips are above everything */
+.tooltip {
+  z-index: 50;
+  /* Allow text wrapping for better readability */
+  max-width: 250px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skill-container {
+    width: 280px;
+    height: 280px;
+  }
+  
+  #skills {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}

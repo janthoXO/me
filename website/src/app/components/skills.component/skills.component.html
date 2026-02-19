@@ -1,24 +1,26 @@
-<div id="skills" class="container mx-auto py-20">
+<div id="skills" class="container mx-auto py-20 min-h-screen flex flex-col justify-center">
   <!-- Interactive Profile Picture with Skills -->
   <div class="flex justify-center">
-    <div class="relative">
+    <div 
+      class="relative skill-container flex items-center justify-center"
+      (mouseenter)="onSectionHover(true)"
+      (mouseleave)="onSectionHover(false)"
+    >
       <!-- Profile Picture -->
       <div
         #profilePicture
         hlmAvatar
-        class="relative w-32 h-32 border-4 border-primary shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110"
-        (mouseenter)="onProfileHover(true)"
-        (mouseleave)="onProfileHover(false)"
+        class="relative w-32 h-32 border-4 border-primary shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110 rounded-full overflow-hidden"
       >
         <img
           hlmAvatarImage
           src="/20240207-profile-pic.jpg"
           alt="Profile Picture"
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover rounded-full"
         />
         <div
           hlmAvatarFallback
-          class="bg-primary/20 flex items-center justify-center"
+          class="bg-primary/20 flex items-center justify-center w-full h-full rounded-full absolute inset-0"
         >
           DJ
         </div>
@@ -28,9 +30,27 @@
           <span class="text-white text-sm font-medium">Hover for skills</span>
         </div>
       </div>
+      
+      <!-- Tooltip under profile picture when skills are shown -->
+      <div
+        class="absolute top-full mt-4 left-1/2 transform -translate-x-1/2 transition-all duration-300"
+        [class.opacity-100]="showSkills()"
+        [class.opacity-0]="!showSkills()"
+        [class.translate-y-0]="showSkills()"
+        [class.translate-y-2]="!showSkills()"
+      >
+        <div class="bg-popover text-popover-foreground px-4 py-2 rounded-lg shadow-lg text-sm border border-border max-w-xs text-center">
+          <div class="font-medium">Hover over each skill to learn more</div>
+          <div class="text-xs text-muted-foreground mt-1">
+            Each bubble shows detailed information about my expertise
+          </div>
+          <!-- Tooltip arrow -->
+          <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-popover"></div>
+        </div>
+      </div>
 
       <!-- Skill Bubbles -->
-      <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute inset-0 pointer-events-none skill-container">
         @for (skill of skills; track skill.id) {
         <!-- Connection Line -->
         <div
@@ -40,7 +60,7 @@
 
         <!-- Skill Bubble -->
         <div
-          class="absolute top-1/2 left-1/2 w-16 h-16 rounded-full flex items-center justify-center font-medium text-sm cursor-pointer group pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-all duration-300"
+          class="glass-liquid absolute top-1/2 left-1/2 w-16 h-16 rounded-full flex items-center justify-center font-medium text-sm cursor-pointer group pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-all duration-300 skill-bubble"
           [ngStyle]="getSkillBubbleStyle(skill)"
         >
           <span class="text-xs font-medium text-center leading-tight">{{
@@ -49,10 +69,10 @@
 
           <!-- Skill tooltip -->
           <div
-            class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-popover text-popover-foreground px-3 py-2 rounded-lg shadow-lg text-xs whitespace-nowrap border border-border"
+            class="tooltip absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-popover text-popover-foreground px-3 py-2 rounded-lg shadow-lg text-xs border border-border max-w-xs"
           >
             <div class="font-semibold">{{ skill.name }}</div>
-            <div class="text-muted-foreground">
+            <div class="text-muted-foreground whitespace-normal">
               {{ skill.description }}
             </div>
             <div
@@ -67,7 +87,7 @@
 
     <!-- Scroll indicator -->
   <div
-    class="flex justify-center animate-bounce"
+    class="flex justify-center animate-bounce mt-8"
   >
     <lucide-icon
       [img]="chevronDownIcon"
