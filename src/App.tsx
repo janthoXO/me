@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "lucide-react"
+import { ChevronDownIcon, MailIcon } from "lucide-react"
 
 import { GithubIcon, LinkedinIcon } from "@/components/brand-icons"
 import { Projects } from "@/components/projects"
@@ -14,25 +14,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { contact, experience, skills } from "@/data"
+import { accomplishments, basics, experience, languages, skills } from "@/data"
 import { formatDuration, formatMonth } from "@/lib/format"
 
-const links = ["Skills", "Experience", "Projects", "Contact"]
+const links = ["Skills", "Experience", "Projects", "Accomplishments", "Contact"]
 
 function Nav() {
   return (
     <nav className="glass fixed inset-x-0 top-0 z-50 border-b bg-background/60">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-center px-4 sm:justify-between sm:px-6">
         <a href="#" className="font-semibold max-sm:hidden">
-          {contact.name}
+          {basics.name}
         </a>
-        <div className="flex gap-4 text-sm sm:gap-6">
+        <div className="flex gap-3 text-xs sm:gap-6 sm:text-sm">
           {links.map((l) => (
             <a
               key={l}
@@ -52,16 +46,21 @@ function Hero() {
   return (
     <section className="flex flex-col items-center gap-8 pt-24 text-center">
       <h1 className="animate-in text-5xl font-bold tracking-tight duration-700 fade-in slide-in-from-bottom-6 sm:text-6xl md:text-8xl">
-        {contact.name}
+        {basics.name}
       </h1>
       <p className="animate-in text-xl text-muted-foreground delay-200 duration-700 fill-mode-both fade-in slide-in-from-bottom-6 md:text-2xl">
-        {contact.title}
+        {basics.title}
+      </p>
+      <p className="max-w-2xl animate-in text-muted-foreground delay-300 duration-700 fill-mode-both fade-in slide-in-from-bottom-6">
+        {basics.summary}
       </p>
       <div className="flex animate-in gap-4 delay-400 duration-700 fill-mode-both fade-in slide-in-from-bottom-6">
         <Button
           size="lg"
           nativeButton={false}
-          render={<a href={contact.github} target="_blank" rel="noreferrer" />}
+          render={
+            <a href={basics.github} target="_blank" rel="me noreferrer" />
+          }
         >
           <GithubIcon data-icon="inline-start" />
           GitHub
@@ -71,7 +70,7 @@ function Hero() {
           variant="secondary"
           nativeButton={false}
           render={
-            <a href={contact.linkedin} target="_blank" rel="noreferrer" />
+            <a href={basics.linkedin} target="_blank" rel="me noreferrer" />
           }
         >
           <LinkedinIcon data-icon="inline-start" />
@@ -94,8 +93,8 @@ function Skills() {
         <div className="absolute inset-8 rounded-full border border-dashed border-primary/30" />
         <Avatar className="size-32 shadow-2xl ring-4 shadow-primary/30 ring-primary">
           <AvatarImage
-            src={`${import.meta.env.BASE_URL}20240207-profile-pic.jpg`}
-            alt={contact.name}
+            src={`${import.meta.env.BASE_URL}${basics.image}`}
+            alt={basics.name}
           />
           <AvatarFallback className="text-2xl">DJ</AvatarFallback>
         </Avatar>
@@ -104,17 +103,42 @@ function Skills() {
           const x = Math.cos(angle) * ORBIT_RADIUS
           const y = Math.sin(angle) * ORBIT_RADIUS
           return (
-            <Tooltip key={skill.name}>
-              <TooltipTrigger
-                className="glass absolute top-1/2 left-1/2 flex size-24 -translate-1/2 items-center justify-center rounded-full border bg-card px-2 text-xs leading-tight font-medium shadow-lg transition-[scale] hover:scale-110 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                style={{ transform: `translate(${x}px, ${y}px)` }}
-              >
-                {skill.name}
-              </TooltipTrigger>
-              <TooltipContent>{skill.description}</TooltipContent>
-            </Tooltip>
+            <div
+              key={skill.name}
+              className="glass absolute top-1/2 left-1/2 flex size-24 -translate-1/2 items-center justify-center rounded-full border bg-card px-2 text-xs leading-tight font-medium shadow-lg transition-[scale] hover:scale-110"
+              style={{ transform: `translate(${x}px, ${y}px)` }}
+            >
+              {skill.name}
+            </div>
           )
         })}
+      </div>
+      <div className="grid w-full max-w-4xl gap-6 md:grid-cols-4">
+        {skills.map((g) => (
+          <div key={g.name} className="flex flex-col items-center gap-2">
+            <h3 className="font-semibold">{g.name}</h3>
+            <ul className="flex flex-wrap justify-center gap-1.5">
+              {g.items.map((item) => (
+                <li key={item}>
+                  <Badge variant="secondary">{item}</Badge>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <div className="flex flex-col items-center gap-2">
+          <h3 className="font-semibold">Languages</h3>
+          <ul className="flex flex-wrap justify-center gap-1.5">
+            {languages.map((l) => (
+              <li key={l.name}>
+                <Badge variant="secondary">
+                  {l.name} · {l.fluency}
+                  {l.level && ` (${l.level})`}
+                </Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <ChevronDownIcon className="animate-bounce text-muted-foreground" />
     </section>
@@ -130,33 +154,39 @@ function Experience() {
       />
       <ol className="relative mx-auto flex w-full max-w-3xl flex-col gap-8 border-l border-primary/30 pl-8">
         {experience.map((e) => (
-          <li key={e.title} className="reveal relative">
+          <li key={e.title + e.start} className="reveal relative">
             <span className="absolute top-8 -left-10 size-4 rounded-full bg-primary ring-4 ring-background" />
             <Card>
               <CardHeader>
                 <Badge className="mb-2">
-                  {formatMonth(e.start)} – {formatMonth(e.end)}
+                  <time dateTime={e.start}>{formatMonth(e.start)}</time> –{" "}
+                  {e.end ? (
+                    <time dateTime={e.end}>{formatMonth(e.end)}</time>
+                  ) : (
+                    formatMonth()
+                  )}
                 </Badge>
                 <CardTitle className="text-lg font-semibold">
                   {e.title}
                 </CardTitle>
-                <CardDescription className="text-base">
-                  {e.subtitle}
-                </CardDescription>
+                {e.organization && (
+                  <CardDescription className="text-base">
+                    {e.organization}
+                  </CardDescription>
+                )}
               </CardHeader>
-              {e.description && (
-                <CardContent className="text-muted-foreground">
-                  {e.description}
+              {e.highlights && (
+                <CardContent>
+                  <ul className="flex list-disc flex-col gap-2 pl-5 text-muted-foreground">
+                    {e.highlights.map((h) => (
+                      <li key={h.name}>
+                        <strong>{h.name}:</strong> {h.description}
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
               )}
-              <CardFooter className="flex-wrap justify-between gap-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {e.tags.map((t) => (
-                    <Badge key={t} variant="secondary">
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
+              <CardFooter className="justify-end">
                 <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   {e.end ? (
                     formatDuration(e.start, e.end)
@@ -176,6 +206,38 @@ function Experience() {
   )
 }
 
+function Accomplishments() {
+  return (
+    <section id="accomplishments" className="flex flex-col gap-12">
+      <SectionHeading
+        title="Accomplishments"
+        subtitle="Awards, scholarships and exhibitions"
+      />
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),20rem))] justify-center gap-6">
+        {accomplishments.map((a) => (
+          <Card key={a.title + a.start} className="reveal">
+            <CardHeader>
+              <Badge className="mb-2">
+                <time dateTime={a.start}>{formatMonth(a.start)}</time>
+                {a.end && (
+                  <>
+                    {" – "}
+                    <time dateTime={a.end}>{formatMonth(a.end)}</time>
+                  </>
+                )}
+              </Badge>
+              <CardTitle className="font-semibold">{a.title}</CardTitle>
+              <CardDescription>
+                {[a.organization, a.location].filter(Boolean).join(" · ")}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   return (
     <footer
@@ -188,7 +250,9 @@ function Footer() {
           size="icon-lg"
           aria-label="GitHub"
           nativeButton={false}
-          render={<a href={contact.github} target="_blank" rel="noreferrer" />}
+          render={
+            <a href={basics.github} target="_blank" rel="me noreferrer" />
+          }
         >
           <GithubIcon />
         </Button>
@@ -198,14 +262,23 @@ function Footer() {
           aria-label="LinkedIn"
           nativeButton={false}
           render={
-            <a href={contact.linkedin} target="_blank" rel="noreferrer" />
+            <a href={basics.linkedin} target="_blank" rel="me noreferrer" />
           }
         >
           <LinkedinIcon />
         </Button>
+        <Button
+          variant="ghost"
+          size="icon-lg"
+          aria-label="Email"
+          nativeButton={false}
+          render={<a href={`mailto:${basics.email}`} />}
+        >
+          <MailIcon />
+        </Button>
       </div>
       <p className="text-sm text-muted-foreground">
-        © {new Date().getFullYear()} {contact.name}. Built with React and
+        © {new Date().getFullYear()} {basics.name}. Built with React and
         shadcn/ui.
       </p>
     </footer>
@@ -214,15 +287,16 @@ function Footer() {
 
 export default function App() {
   return (
-    <TooltipProvider>
+    <>
       <Nav />
       <main className="mx-auto flex max-w-6xl flex-col gap-32 px-4 pb-32 sm:px-6">
         <Hero />
         <Skills />
         <Experience />
         <Projects />
+        <Accomplishments />
       </main>
       <Footer />
-    </TooltipProvider>
+    </>
   )
 }

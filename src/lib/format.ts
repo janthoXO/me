@@ -1,6 +1,6 @@
-export function formatMonth(date: Date | null) {
+export function formatMonth(date?: string) {
   return date
-    ? date.toLocaleDateString("en-US", {
+    ? new Date(date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         timeZone: "UTC",
@@ -8,8 +8,9 @@ export function formatMonth(date: Date | null) {
     : "Present"
 }
 
-export function formatDuration(start: Date, end: Date | null) {
-  const to = end ?? new Date()
+export function formatDuration(from: string, until?: string) {
+  const start = new Date(from)
+  const to = until ? new Date(until) : new Date()
   const months =
     (to.getUTCFullYear() - start.getUTCFullYear()) * 12 +
     to.getUTCMonth() -

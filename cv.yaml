@@ -1,0 +1,151 @@
+# Single source of truth for the website and the Typst CV (`yaml("cv.yaml")`).
+# Dates are "YYYY-MM" strings. Education/work: omit `end` while ongoing.
+# Accomplishments: omit `end` for a single date.
+
+basics:
+  name: Dennis Jandow
+  title: Software Architect & Full-Stack Developer
+  # Shown on the page and used as meta description (aim for ~150 characters).
+  summary: >-
+    Software architect and full-stack developer focused on system design and
+    how components work together and communicate. Master's student at the
+    Technical University of Munich.
+  email: dp.jandow@gmail.com
+  phone: +49 179 8292424 # CV only, not published on the website
+  url: https://janthoxo.github.io/me/
+  image: profile.jpg
+  github: https://github.com/janthoXO
+  linkedin: https://www.linkedin.com/in/dennisjandow/
+
+education:
+  - title: Master Informatics
+    organization: Technical University of Munich
+    start: 2024-10
+  - title: Exchange Semester
+    organization: Tsinghua University
+    start: 2026-02
+    end: 2026-07
+  - title: "Bachelors Informatics: Games Engineering"
+    organization: Technical University of Munich
+    start: 2021-10
+    end: 2025-02
+
+work:
+  - title: Freelance Consultant & Software Engineer
+    start: 2024-07
+    highlights:
+      - name: Academic Software Engineering (Technical University of Munich)
+        description: >-
+          Currently engineering AetioMed, an AI-powered generator for synthetic
+          medical cases, building robust tools for student training and
+          educator workflows.
+      - name: Usability & UX Consulting
+        description: >-
+          Conducted comprehensive usability reviews and user experience
+          evaluations for interactive software, analyzing interaction flows,
+          logic structures, and cognitive load to optimize the end-user
+          experience.
+  - title: Working Student Software Engineer
+    organization: Siticom GmbH
+    start: 2022-12
+    end: 2025-07
+    highlights:
+      - name: Full-Stack Architecture
+        description: >-
+          Architected and developed a comprehensive full-stack infrastructure
+          management platform (server, web interface, and mobile app) used for
+          optical fiber routing and construction planning.
+      - name: Interactive Tooling
+        description: >-
+          Implemented an interactive mapping interface allowing infrastructure
+          planners to digitally draw and route cable networks.
+      - name: Workflow Synchronization
+        description: >-
+          Engineered a real-time synchronization and approval workflow
+          connecting field construction workers, who use the mobile app to
+          upload on-site documentation and photos, directly with office
+          planners for verification and compliance tracking.
+
+# GitHub links are fetched live (name, description, topics, language, stars);
+# the fields here are the fallback when the API has no value.
+projects:
+  - name: AetioMed
+    description: >-
+      AI-powered generator for realistic synthetic medical cases (consistent
+      symptoms, history, and diagnoses) for student training and educator
+      tooling.
+    language: TypeScript
+    link: https://github.com/janthoXO/AetioMed
+  - name: sentinel
+    description: >-
+      Stock recommendation engine combining sentiment analysis of financial
+      news and social media with technical indicators to surface actionable
+      trading signals.
+    language: Python
+    link: https://github.com/janthoXO/sentiment-analysis-recommender
+  - name: reflash
+    description: >-
+      Browser extension that auto-generates flashcards from Moodle course files
+      using on-device WebLLM inference: no upload, no account, open and start
+      studying.
+    language: TypeScript
+    link: https://github.com/janthoXO/reflash
+  - name: convergeKV
+    description: >-
+      Distributed eventually-consistent key-value store with gossip-based
+      clustering, rendezvous hashing, and CRDT field-level merging via Hybrid
+      Logical Clocks.
+    language: Go
+    link: https://github.com/janthoXO/convergeKV
+  # Pinned on GitHub; `cv: false` keeps them off the PDF.
+  - name: Scorpio
+    description: >-
+      VS Code/Theia extension providing the EduIDE infrastructure for the
+      Artemis learning platform: workspace setup, repository cloning, and git
+      identity configuration.
+    language: TypeScript
+    link: https://github.com/EduIDE/scorpio
+    cv: false
+  - name: KlangLadder
+    description: >-
+      macOS menu bar app that automatically switches the default audio output
+      and input device by priority list.
+    language: Swift
+    link: https://github.com/janthoXO/KlangLadder
+    cv: false
+  - name: pokemon-tcg-pocket-mcp
+    description: >-
+      MCP server for Pokémon TCG Pocket card search with fuzzy names, filters
+      and semantic ability/attack search for AI assistants.
+    language: TypeScript
+    link: https://github.com/janthoXO/pokemon-tcg-pocket-mcp
+    cv: false
+
+skills:
+  - name: Languages & Runtimes
+    items: [Golang, Node.js, Java, Python, C Basics]
+  - name: Frameworks & Platforms
+    items: [React, React Native, Chrome Extensions, VS Code Extensions]
+  - name: DevOps & Process
+    items: [Docker, GitHub Actions, Scrum, UML]
+
+accomplishments:
+  - title: GenDev Scholarship
+    organization: Check24
+    location: Munich
+    start: 2025-07
+    end: 2026-07
+  - title: Winner HackaTUM
+    organization: Check24 Challenge
+    location: Munich
+    start: 2024-11
+  - title: Exhibitor TUM FAR DemoDays
+    location: Munich
+    start: 2021-02
+
+languages:
+  - name: German
+    fluency: native
+  - name: English
+    fluency: fluent
+    level: C1

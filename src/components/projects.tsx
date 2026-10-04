@@ -14,8 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { SectionHeading } from "@/components/section-heading"
-import { contact, projects, type Project } from "@/data"
-import { formatMonth, timeAgo } from "@/lib/format"
+import { basics, projects, type Project } from "@/data"
+import { timeAgo } from "@/lib/format"
 
 type Repo = {
   name: string
@@ -43,7 +43,7 @@ function useRepo(link: string) {
 
 function ProjectCard({ project }: { project: Project }) {
   const repo = useRepo(project.link)
-  const tags = repo?.topics.length ? repo.topics : project.tags
+  const tags = repo?.topics.length ? repo.topics : []
 
   return (
     <Card className="reveal transition-transform duration-300 hover:-translate-y-1">
@@ -51,9 +51,6 @@ function ProjectCard({ project }: { project: Project }) {
         <CardTitle className="text-lg font-semibold">
           {repo?.name ?? project.name}
         </CardTitle>
-        <CardDescription>
-          {formatMonth(project.start)} – {formatMonth(project.end)}
-        </CardDescription>
         <CardAction>
           <Button
             variant="ghost"
@@ -68,24 +65,30 @@ function ProjectCard({ project }: { project: Project }) {
       </CardHeader>
       <CardContent className="flex flex-1 flex-col gap-4">
         <p className="text-muted-foreground">
-          {repo?.description ?? project.description}
+          {repo?.description || project.description}
         </p>
-        {repo && (
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            {repo.language && <Badge variant="outline">{repo.language}</Badge>}
-            <span className="flex items-center gap-1">
-              <StarIcon className="size-3" /> {repo.stargazers_count}
-            </span>
-            <span className="ml-auto">Updated {timeAgo(repo.updated_at)}</span>
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <Badge variant="outline">{repo?.language ?? project.language}</Badge>
+          {repo && (
+            <>
+              <span className="flex items-center gap-1">
+                <StarIcon className="size-3" /> {repo.stargazers_count}
+              </span>
+              <span className="ml-auto">
+                Updated {timeAgo(repo.updated_at)}
+              </span>
+            </>
+          )}
+        </div>
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {tags.slice(0, 6).map((tag) => (
+              <Badge key={tag} variant="secondary">
+                {tag}
+              </Badge>
+            ))}
           </div>
         )}
-        <div className="flex flex-wrap gap-1.5">
-          {tags.slice(0, 6).map((tag) => (
-            <Badge key={tag} variant="secondary">
-              {tag}
-            </Badge>
-          ))}
-        </div>
       </CardContent>
       <CardFooter>
         <Button
@@ -125,9 +128,7 @@ export function Projects() {
           <Button
             size="lg"
             nativeButton={false}
-            render={
-              <a href={contact.github} target="_blank" rel="noreferrer" />
-            }
+            render={<a href={basics.github} target="_blank" rel="noreferrer" />}
           >
             <GithubIcon data-icon="inline-start" />
             Visit GitHub Profile
