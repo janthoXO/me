@@ -1,0 +1,91 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - ".github/instructions/**"
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - id: version
+        uses: ./.github/actions/determine-version
+
+  package:
+    needs: versioning
+    uses: ./.github/workflows/package.yml
+    with:
+      version: ${{ needs.versioning.outputs.version }}
+
+  release:
+    needs: [versioning, package]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    env:
+      VERSION: ${{ needs.versioning.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: docker-image-${{ needs.versioning.outputs.version }}
+          path: ./artifacts
+      - run: docker load -i ./artifacts/website-${{ needs.versioning.outputs.version }}.tar
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image
+        run: |
+          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker tag "website:$VERSION" "$IMAGE_ID:$VERSION"
+          docker tag "website:$VERSION" "$IMAGE_ID:latest"
+          docker push "$IMAGE_ID:$VERSION"
+          docker push "$IMAGE_ID:latest"
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ needs.versioning.outputs.version }}
+          name: v${{ needs.versioning.outputs.version }}
+          files: ./artifacts/*.tar
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pages:
+    needs: versioning
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build --base=/me/
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
+      - id: deployment
+        uses: actions/deploy-pages@v5

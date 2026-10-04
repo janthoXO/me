@@ -1,0 +1,31 @@
+name: Package
+
+on:
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - ".github/instructions/**"
+  workflow_call:
+    inputs:
+      version:
+        description: Version to build
+        required: false
+        type: string
+        default: "0.0.0"
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set version
+        if: ${{ inputs.version }}
+        run: npm version ${{ inputs.version }} --no-git-tag-version
+      - run: docker build -t website:${{ inputs.version || 'latest' }} .
+      - run: docker save website:${{ inputs.version || 'latest' }} -o website-${{ inputs.version || 'latest' }}.tar
+      - uses: actions/upload-artifact@v7
+        with:
+          name: docker-image-${{ inputs.version || 'latest' }}
+          path: website-${{ inputs.version || 'latest' }}.tar
+          if-no-files-found: error
