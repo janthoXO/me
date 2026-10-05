@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource/architects-daughter";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -10,6 +11,9 @@
   --font-sans:
     -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter Variable",
     system-ui, sans-serif;
+  --font-chalk: "Architects Daughter", cursive;
+  --color-chalk: var(--chalk);
+  --color-luminous: var(--luminous);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,39 +55,42 @@
 }
 
 :root {
-  /* iOS dark system colors */
-  --background: #000000;
-  --foreground: #ffffff;
-  --card: rgb(28 28 30 / 0.65);
-  --card-foreground: #ffffff;
-  --popover: #2c2c2e;
-  --popover-foreground: #ffffff;
-  --primary: #0a84ff;
-  --primary-foreground: #ffffff;
-  --secondary: rgb(118 118 128 / 0.24);
-  --secondary-foreground: #ffffff;
-  --muted: #1c1c1e;
-  --muted-foreground: rgb(235 235 245 / 0.6);
-  --accent: rgb(10 132 255 / 0.15);
-  --accent-foreground: #ffffff;
-  --destructive: #ff453a;
-  --border: rgb(255 255 255 / 0.1);
-  --input: rgb(255 255 255 / 0.15);
-  --ring: #0a84ff;
-  --chart-1: #0a84ff;
-  --chart-2: #64d2ff;
-  --chart-3: #5e5ce6;
-  --chart-4: #40c8e0;
-  --chart-5: #bf5af2;
+  /* Slate chalkboard with frosted glass and a cool rim glow */
+  --background: #17191b;
+  --foreground: #f4f4f1;
+  --chalk: rgb(240 240 232 / 0.92);
+  --luminous: #f5fbff;
+  --glow: rgb(125 205 255);
+  --card: rgb(110 140 178 / 0.14);
+  --card-foreground: #f4f4f1;
+  --popover: #24272a;
+  --popover-foreground: #f4f4f1;
+  --primary: #d6e6fb;
+  --primary-foreground: #121417;
+  --secondary: rgb(255 255 255 / 0.08);
+  --secondary-foreground: #f4f4f1;
+  --muted: #202326;
+  --muted-foreground: rgb(232 234 236 / 0.62);
+  --accent: rgb(170 210 255 / 0.12);
+  --accent-foreground: #f4f4f1;
+  --destructive: #ff6b5e;
+  --border: rgb(255 255 255 / 0.12);
+  --input: rgb(255 255 255 / 0.16);
+  --ring: #a9cdf7;
+  --chart-1: #a9cdf7;
+  --chart-2: #d6e6fb;
+  --chart-3: #8fa3b8;
+  --chart-4: #c7d2dc;
+  --chart-5: #e8e4d8;
   --radius: 0.75rem;
-  --sidebar: #1c1c1e;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #0a84ff;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgb(118 118 128 / 0.24);
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgb(255 255 255 / 0.1);
-  --sidebar-ring: #0a84ff;
+  --sidebar: #202326;
+  --sidebar-foreground: #f4f4f1;
+  --sidebar-primary: #d6e6fb;
+  --sidebar-primary-foreground: #121417;
+  --sidebar-accent: rgb(255 255 255 / 0.08);
+  --sidebar-accent-foreground: #f4f4f1;
+  --sidebar-border: rgb(255 255 255 / 0.12);
+  --sidebar-ring: #a9cdf7;
   color-scheme: dark;
 }
 
@@ -96,15 +103,27 @@
   }
   body {
     @apply min-h-svh text-foreground;
+    /* chalk dust grain, erased smudges, faint glow from above */
     background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
       radial-gradient(
-        ellipse 80% 50% at 50% -10%,
-        rgb(10 132 255 / 0.3),
+        ellipse 70% 40% at 50% -5%,
+        rgb(170 210 255 / 0.12),
         transparent
       ),
       radial-gradient(
-        ellipse 60% 40% at 100% 60%,
-        rgb(94 92 230 / 0.12),
+        ellipse 40% 18% at 20% 35%,
+        rgb(255 255 255 / 0.035),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 35% 22% at 85% 70%,
+        rgb(255 255 255 / 0.03),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 50% 15% at 40% 90%,
+        rgb(255 255 255 / 0.025),
         transparent
       ),
       var(--background);
@@ -115,7 +134,46 @@
 /* Frosted glass, like iOS materials */
 [data-slot="card"],
 .glass {
-  backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+/* Blue-tinted glass pane: lit top edge, soft wide shadow lifting it off the board */
+[data-slot="card"],
+.glow {
+  background-image: linear-gradient(
+    180deg,
+    rgb(200 230 255 / 0.09),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    inset 0 0 40px rgb(140 200 255 / 0.06),
+    0 0 0 1px rgb(190 225 255 / 0.16),
+    0 0 32px -8px rgb(from var(--glow) r g b / 0.3),
+    0 12px 32px -8px rgb(0 0 0 / 0.45),
+    0 40px 100px -24px rgb(0 0 0 / 0.8);
+}
+
+/* Headings, keywords and icons on glass panels */
+@utility luminous {
+  color: var(--luminous);
+  text-shadow:
+    0 0 6px rgb(from var(--glow) r g b / 0.55),
+    0 0 20px rgb(from var(--glow) r g b / 0.3);
+}
+@utility luminous-icon {
+  color: var(--luminous);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgb(from var(--glow) r g b / 0.7));
+}
+
+/* Chalk lettering and strokes (filter defined in components/chalk.tsx) */
+@utility chalk {
+  font-family: var(--font-chalk) !important; /* beats font-heading etc. */
+  font-weight: 400;
+  color: var(--chalk);
+  text-shadow: 0 0 0.5em rgb(255 255 255 / 0.25);
+  filter: url(#chalk);
 }
 
 /* Fade sections in as they scroll into view (no JS, skipped where unsupported) */
@@ -127,8 +185,22 @@
       animation-range: entry 0% cover 25%;
     }
   }
+  @supports (animation-timeline: view()) {
+    .chalk-draw path {
+      stroke-dasharray: 1;
+      animation: chalk-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 35%;
+    }
+  }
   html {
     scroll-behavior: smooth;
+  }
+}
+
+@keyframes chalk-draw {
+  from {
+    stroke-dashoffset: 1;
   }
 }
 

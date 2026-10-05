@@ -1,10 +1,11 @@
-import { ChevronDownIcon, MailIcon } from "lucide-react"
+import { CheckIcon, MailIcon } from "lucide-react"
+import { cn } from "cn"
 
 import { GithubIcon, LinkedinIcon } from "@/components/brand-icons"
+import { ChalkArrow, ChalkFilter } from "@/components/chalk"
 import { Projects } from "@/components/projects"
 import { SectionHeading } from "@/components/section-heading"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,7 +15,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { accomplishments, basics, experience, languages, skills } from "@/data"
+import {
+  accomplishments,
+  basics,
+  experience,
+  languages,
+  skills,
+  type Entry,
+} from "@/data"
 import { formatDuration, formatMonth } from "@/lib/format"
 
 const links = ["Skills", "Experience", "Projects", "Accomplishments", "Contact"]
@@ -44,8 +52,8 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="flex flex-col items-center gap-8 pt-24 text-center">
-      <h1 className="animate-in text-5xl font-bold tracking-tight duration-700 fade-in slide-in-from-bottom-6 sm:text-6xl md:text-8xl">
+    <section className="flex flex-col items-center gap-8 pt-32 text-center">
+      <h1 className="animate-in text-5xl font-semibold tracking-tight luminous duration-700 fade-in slide-in-from-bottom-6 sm:text-6xl md:text-8xl">
         {basics.name}
       </h1>
       <p className="animate-in text-xl text-muted-foreground delay-200 duration-700 fill-mode-both fade-in slide-in-from-bottom-6 md:text-2xl">
@@ -57,6 +65,7 @@ function Hero() {
       <div className="flex animate-in gap-4 delay-400 duration-700 fill-mode-both fade-in slide-in-from-bottom-6">
         <Button
           size="lg"
+          className="glow"
           nativeButton={false}
           render={
             <a href={basics.github} target="_blank" rel="me noreferrer" />
@@ -67,7 +76,8 @@ function Hero() {
         </Button>
         <Button
           size="lg"
-          variant="secondary"
+          variant="outline"
+          className="glass glow"
           nativeButton={false}
           render={
             <a href={basics.linkedin} target="_blank" rel="me noreferrer" />
@@ -81,69 +91,83 @@ function Hero() {
   )
 }
 
-const ORBIT_RADIUS = 125
+// Grid placement around the avatar, in order: top-left, top-right,
+// bottom-left, bottom-right. Arrows point at the avatar (up on mobile).
+const mapSlots = [
+  { box: "md:col-start-1 md:row-start-1 md:flex-row", arrow: "md:rotate-15" },
+  {
+    box: "md:col-start-3 md:row-start-1 md:flex-row-reverse",
+    arrow: "md:rotate-165",
+  },
+  { box: "md:col-start-1 md:row-start-2 md:flex-row", arrow: "md:-rotate-15" },
+  {
+    box: "md:col-start-3 md:row-start-2 md:flex-row-reverse",
+    arrow: "md:rotate-195",
+  },
+]
 
 function Skills() {
+  const groups = [
+    ...skills,
+    {
+      name: "Spoken",
+      items: languages.map((l) => `${l.name} (${l.level ?? l.fluency})`),
+    },
+  ]
   return (
-    <section
-      id="skills"
-      className="reveal flex flex-col items-center gap-10 py-12"
-    >
-      <div className="relative flex size-80 items-center justify-center">
-        <div className="absolute inset-8 rounded-full border border-dashed border-primary/30" />
-        <Avatar className="size-32 shadow-2xl ring-4 shadow-primary/30 ring-primary">
-          <AvatarImage
-            src={`${import.meta.env.BASE_URL}${basics.image}`}
-            alt={basics.name}
-          />
-          <AvatarFallback className="text-2xl">DJ</AvatarFallback>
-        </Avatar>
-        {skills.map((skill, i) => {
-          const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2
-          const x = Math.cos(angle) * ORBIT_RADIUS
-          const y = Math.sin(angle) * ORBIT_RADIUS
-          return (
-            <div
-              key={skill.name}
-              className="glass absolute top-1/2 left-1/2 flex size-24 -translate-1/2 items-center justify-center rounded-full border bg-card px-2 text-xs leading-tight font-medium shadow-lg transition-[scale] hover:scale-110"
-              style={{ transform: `translate(${x}px, ${y}px)` }}
-            >
-              {skill.name}
+    <section id="skills" className="flex flex-col gap-12">
+      <SectionHeading
+        title="Skills"
+        subtitle="The building blocks I work with"
+      />
+      <div className="reveal mx-auto grid w-full max-w-5xl justify-items-center gap-4 md:grid-cols-[1fr_auto_1fr] md:grid-rows-2 md:items-center md:gap-y-16">
+        <div className="glass glow flex flex-col items-center gap-2 rounded-4xl bg-card p-5 md:col-start-2 md:row-span-2 md:row-start-1">
+          <Avatar className="size-28 ring-2 ring-white/20">
+            <AvatarImage
+              src={`${import.meta.env.BASE_URL}${basics.image}`}
+              alt={basics.name}
+            />
+            <AvatarFallback className="text-2xl">DJ</AvatarFallback>
+          </Avatar>
+          <span className="text-sm text-muted-foreground">me</span>
+        </div>
+        {groups.map((g, i) => (
+          <div
+            key={g.name}
+            className={cn(
+              "flex w-full max-w-sm flex-col items-center gap-2 md:max-w-none md:gap-0",
+              mapSlots[i % mapSlots.length].box
+            )}
+          >
+            <ChalkArrow
+              className={cn(
+                "w-16 shrink-0 -rotate-90 md:order-last md:w-20",
+                mapSlots[i % mapSlots.length].arrow
+              )}
+            />
+            <div className="relative w-full flex-1 p-4">
+              <span
+                aria-hidden
+                className="absolute inset-0 rounded-lg border-2 border-current chalk"
+              />
+              <h3 className="mb-2 font-semibold">{g.name}</h3>
+              <p className="text-muted-foreground">{g.items.join(" · ")}</p>
             </div>
-          )
-        })}
-      </div>
-      <div className="grid w-full max-w-4xl gap-6 md:grid-cols-4">
-        {skills.map((g) => (
-          <div key={g.name} className="flex flex-col items-center gap-2">
-            <h3 className="font-semibold">{g.name}</h3>
-            <ul className="flex flex-wrap justify-center gap-1.5">
-              {g.items.map((item) => (
-                <li key={item}>
-                  <Badge variant="secondary">{item}</Badge>
-                </li>
-              ))}
-            </ul>
           </div>
         ))}
-        <div className="flex flex-col items-center gap-2">
-          <h3 className="font-semibold">Languages</h3>
-          <ul className="flex flex-wrap justify-center gap-1.5">
-            {languages.map((l) => (
-              <li key={l.name}>
-                <Badge variant="secondary">
-                  {l.name} · {l.fluency}
-                  {l.level && ` (${l.level})`}
-                </Badge>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-      <ChevronDownIcon className="animate-bounce text-muted-foreground" />
     </section>
   )
 }
+
+// Grouped by end year, matching the newest-first sort of `experience`.
+const timeline = experience.reduce<[string, Entry[]][]>((groups, e) => {
+  const year = e.end?.slice(0, 4) ?? "now"
+  const last = groups.at(-1)
+  if (last?.[0] === year) last[1].push(e)
+  else groups.push([year, [e]])
+  return groups
+}, [])
 
 function Experience() {
   return (
@@ -152,53 +176,74 @@ function Experience() {
         title="Experience"
         subtitle="My professional journey in software development"
       />
-      <ol className="relative mx-auto flex w-full max-w-3xl flex-col gap-8 border-l border-primary/30 pl-8">
-        {experience.map((e) => (
-          <li key={e.title + e.start} className="reveal relative">
-            <span className="absolute top-8 -left-10 size-4 rounded-full bg-primary ring-4 ring-background" />
-            <Card>
-              <CardHeader>
-                <Badge className="mb-2">
-                  <time dateTime={e.start}>{formatMonth(e.start)}</time> –{" "}
-                  {e.end ? (
-                    <time dateTime={e.end}>{formatMonth(e.end)}</time>
-                  ) : (
-                    formatMonth()
+      <ol className="relative mx-auto flex w-full max-w-3xl flex-col gap-10 pl-16 sm:pl-24">
+        <span
+          aria-hidden
+          className="absolute inset-y-0 left-4 w-0.75 rounded-full bg-current chalk sm:left-8"
+        />
+        {timeline.map(([year, entries]) => (
+          <li key={year}>
+            <ol className="flex flex-col gap-10">
+              {entries.map((e, i) => (
+                <li key={e.title + e.start} className="reveal relative">
+                  {/* Only the first entry of an end year gets the marker */}
+                  {i === 0 && (
+                    <div className="absolute top-9 -left-12 w-11 sm:-left-16 sm:w-15">
+                      <span className="absolute -top-6 left-1 chalk text-lg">
+                        {year === "now" ? (
+                          "now"
+                        ) : (
+                          <time dateTime={year}>{year}</time>
+                        )}
+                      </span>
+                      <ChalkArrow className="w-full" />
+                    </div>
                   )}
-                </Badge>
-                <CardTitle className="text-lg font-semibold">
-                  {e.title}
-                </CardTitle>
-                {e.organization && (
-                  <CardDescription className="text-base">
-                    {e.organization}
-                  </CardDescription>
-                )}
-              </CardHeader>
-              {e.highlights && (
-                <CardContent>
-                  <ul className="flex list-disc flex-col gap-2 pl-5 text-muted-foreground">
-                    {e.highlights.map((h) => (
-                      <li key={h.name}>
-                        <strong>{h.name}:</strong> {h.description}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              )}
-              <CardFooter className="justify-end">
-                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  {e.end ? (
-                    formatDuration(e.start, e.end)
-                  ) : (
-                    <>
-                      <span className="size-2 animate-pulse rounded-full bg-primary" />
-                      Currently active
-                    </>
-                  )}
-                </span>
-              </CardFooter>
-            </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg font-semibold luminous">
+                        {e.title}
+                      </CardTitle>
+                      {e.organization && (
+                        <CardDescription className="text-base">
+                          {e.organization}
+                        </CardDescription>
+                      )}
+                      <p className="text-sm text-muted-foreground">
+                        <time dateTime={e.start}>{formatMonth(e.start)}</time> –{" "}
+                        {e.end ? (
+                          <time dateTime={e.end}>{formatMonth(e.end)}</time>
+                        ) : (
+                          formatMonth()
+                        )}
+                      </p>
+                    </CardHeader>
+                    {e.highlights && (
+                      <CardContent>
+                        <ul className="flex list-disc flex-col gap-2 pl-5 text-muted-foreground">
+                          {e.highlights.map((h) => (
+                            <li key={h.name}>
+                              <strong className="luminous">{h.name}:</strong>{" "}
+                              {h.description}
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    )}
+                    <CardFooter className="justify-end gap-1.5 text-xs text-muted-foreground">
+                      {e.end ? (
+                        formatDuration(e.start, e.end)
+                      ) : (
+                        <>
+                          <span className="size-2 animate-pulse rounded-full bg-luminous shadow-[0_0_8px_var(--glow)]" />
+                          Currently active
+                        </>
+                      )}
+                    </CardFooter>
+                  </Card>
+                </li>
+              ))}
+            </ol>
           </li>
         ))}
       </ol>
@@ -213,27 +258,30 @@ function Accomplishments() {
         title="Accomplishments"
         subtitle="Awards, scholarships and exhibitions"
       />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),20rem))] justify-center gap-6">
-        {accomplishments.map((a) => (
-          <Card key={a.title + a.start} className="reveal">
-            <CardHeader>
-              <Badge className="mb-2">
-                <time dateTime={a.start}>{formatMonth(a.start)}</time>
-                {a.end && (
-                  <>
-                    {" – "}
-                    <time dateTime={a.end}>{formatMonth(a.end)}</time>
-                  </>
-                )}
-              </Badge>
-              <CardTitle className="font-semibold">{a.title}</CardTitle>
-              <CardDescription>
-                {[a.organization, a.location].filter(Boolean).join(" · ")}
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ))}
-      </div>
+      <Card className="reveal mx-auto w-full max-w-2xl">
+        <CardContent>
+          <ul className="flex flex-col gap-6">
+            {accomplishments.map((a) => (
+              <li key={a.title + a.start} className="flex gap-3">
+                <CheckIcon className="mt-0.5 size-5 shrink-0 luminous-icon" />
+                <div>
+                  <h3 className="font-semibold luminous">{a.title}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {[a.organization, a.location].filter(Boolean).join(" · ")} ·{" "}
+                    <time dateTime={a.start}>{formatMonth(a.start)}</time>
+                    {a.end && (
+                      <>
+                        {" → "}
+                        <time dateTime={a.end}>{formatMonth(a.end)}</time>
+                      </>
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </section>
   )
 }
@@ -288,6 +336,7 @@ function Footer() {
 export default function App() {
   return (
     <>
+      <ChalkFilter />
       <Nav />
       <main className="mx-auto flex max-w-6xl flex-col gap-32 px-4 pb-32 sm:px-6">
         <Hero />
